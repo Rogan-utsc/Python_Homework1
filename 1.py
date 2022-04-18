@@ -1,8 +1,11 @@
 from itertools import count
-from pdfminer.high_level import extract_text
-text = extract_text('D:\Python_Homework1/sample3.pdf')
+from pdfminer.high_level import extract_text ##此函数能够将pdf中文本转化为字符串的形式
+pdf = open('D:\Python_Homework1/sample.pdf', mode="rb")
+text = extract_text( pdf )
 #print(repr(text))
-def Cut_Ref(text):
+
+def Cut_Ref(text):##从pdf转化而成的txt中将Reference部分截取出来
+##由于不同类型的文章的References的格式不同，这里函数仅仅适用于CVPR类型的文章
     keylab = "References\n\n"
     for idx in range(len(text)): 
         if text[idx : idx + len(keylab)] == keylab:
@@ -12,14 +15,10 @@ def Cut_Ref(text):
             print("No Refrences in this article !\n")
             break 
         
-#text2="In the second Pick&Sweep\ntask, the robot is required to pick a sweeping tool (e.g.\ndustpan sweeper, table cloth, or sponge, etc.) up and\nsweep an object into the dustpan. The task is successful\nif the target object is swept into the dustpan within 50\n\n\x0cReferences\n\n[1] F. Ebert, C. Finn, S. Dasari, A. Xie, A. Lee, and\nS. Levine, “Visual foresight: Model-based deep reinforcement\nlearning for vision-based robotic control,” "
 text1 = Cut_Ref(text)
-#text2 = text1[0:400]
 #print(repr(text1))
-#print(repr(text1))
-#Ref_List
 
-def Ref_List(txt):
+def Ref_List(txt):##该函数将截取的Ref按每一条拆开，将文本中多余的换行符去除，并有序存入一个list中
     keylab1 = "["
     keylab2 = "\n\n"
     RefList = [0 for i in range(txt.count(keylab1))]
@@ -39,9 +38,8 @@ def Ref_List(txt):
     return(RefList)
 
 print(Ref_List(text1))
-            
 
-#print(repr(text2))
+
 
 
 
